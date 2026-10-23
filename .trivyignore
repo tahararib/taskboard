@@ -1,0 +1,6 @@
+# Décision dry run master · 23/10/2026 — wks2
+# Spring Framework 6.2 (lignée Boot 3.5) : correctifs publiés uniquement en 7.0.9
+# (Spring Boot 4), pas de rétroportage 6.2 à ce jour.
+# À réévaluer à CHAQUE bump du parent Spring Boot.
+CVE-2026-47884
+CVE-2026-47890
