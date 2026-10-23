@@ -1,0 +1,4 @@
+# Ignore dedie a Dockerfile.ci (BuildKit lit <Dockerfile>.dockerignore en priorite)
+# Allowlist : tout ignorer SAUF le jar — contexte minimal, et target/ reste exclu du multi-stage
+*
+!target/*.jar

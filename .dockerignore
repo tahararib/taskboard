@@ -1,0 +1,5 @@
+# Contexte du Dockerfile multi-stage : il compile lui-meme, le target local ne doit pas polluer
+target/
+.git/
+.idea/
+*.iml

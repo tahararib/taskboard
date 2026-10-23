@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Taskboard</title>
+  <style>
+    :root { --bg:#f6f7f9; --card:#fff; --ink:#1c2430; --mut:#6b7686; --ok:#2e9e5b; --line:#e4e8ee; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",sans-serif; background:var(--bg); color:var(--ink); }
+    .wrap { max-width:640px; margin:40px auto; padding:0 16px; }
+    h1 { font-size:26px; margin:0 0 4px; }
+    .sub { color:var(--mut); margin:0 0 24px; font-size:14px; }
+    form.add { display:flex; gap:8px; margin-bottom:20px; }
+    form.add input { flex:1; padding:10px 12px; border:1px solid var(--line); border-radius:8px; font-size:15px; }
+    form.add button { padding:10px 18px; border:0; border-radius:8px; background:var(--ink); color:#fff; font-size:15px; cursor:pointer; }
+    ul { list-style:none; padding:0; margin:0; }
+    li { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px 14px;
+         margin-bottom:8px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    li.done span.t { text-decoration:line-through; color:var(--mut); }
+    li form { margin:0; }
+    li button { border:1px solid var(--line); background:#fff; border-radius:7px; padding:6px 12px; cursor:pointer; font-size:13px; }
+    li.done button { border-color:var(--ok); color:var(--ok); }
+    footer { margin-top:32px; padding-top:14px; border-top:1px solid var(--line);
+             color:var(--mut); font-size:13px; display:flex; justify-content:space-between; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Taskboard</h1>
+  <p class="sub">Le tableau de tâches de l'équipe — fil rouge de la formation DevOps</p>
+
+  <form class="add" method="post" action="/tasks">
+    <input type="text" name="title" placeholder="Nouvelle tâche…" required>
+    <button type="submit">Ajouter</button>
+  </form>
+
+  <ul>
+    <li th:each="task : ${tasks}" th:classappend="${task.done} ? 'done'">
+      <span class="t" th:text="${task.title}">Titre de la tâche</span>
+      <form method="post" th:action="@{/tasks/{id}/toggle(id=${task.id})}">
+        <button type="submit" th:text="${task.done} ? 'Fait ✓' : 'À faire'">À faire</button>
+      </form>
+    </li>
+  </ul>
+
+  <footer>
+    <span>Servi par : <strong th:text="${hostname}">hôte</strong></span>
+    <span>version <strong th:text="${version}">dev</strong></span>
+  </footer>
+</div>
+</body>
+</html>
