@@ -64,7 +64,7 @@ pipeline {
           ${REGISTRE}/taskboard:${TAG}"""
       }
       post { always {
-        recordIssues tools: [trivy(pattern: 'trivy.json')]
+        recordIssues enabledForFailure: true, tools: [trivy(pattern: 'trivy.json')]
       } }
     }
     stage('Publier') {
