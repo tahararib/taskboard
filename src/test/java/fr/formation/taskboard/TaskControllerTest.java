@@ -38,6 +38,20 @@ class TaskControllerTest {
     }
 
     @Test
+    void leBandeauVientDuFichierQuandIlEstConfigure(@org.junit.jupiter.api.io.TempDir java.nio.file.Path dir) throws Exception {
+        java.nio.file.Path f = dir.resolve("banner.txt");
+        java.nio.file.Files.writeString(f, "  Maintenance ce soir  \n");
+        TaskController c = new TaskController(repository, "1.0.0", "depuis env", f.toString());
+        org.assertj.core.api.Assertions.assertThat(c.currentBanner()).isEqualTo("Maintenance ce soir");
+    }
+
+    @Test
+    void leBandeauRetombeSurLaVariableSiLeFichierEstIllisible() {
+        TaskController c = new TaskController(repository, "1.0.0", "depuis env", "/inexistant/banner.txt");
+        org.assertj.core.api.Assertions.assertThat(c.currentBanner()).isEqualTo("depuis env");
+    }
+
+    @Test
     void ajouterUneTacheRedirigeVersLAccueil() throws Exception {
         mvc.perform(post("/tasks").param("title", "Nouvelle tâche"))
                 .andExpect(status().is3xxRedirection())

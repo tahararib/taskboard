@@ -21,6 +21,7 @@
     li form { margin:0; }
     li button { border:1px solid var(--line); background:#fff; border-radius:7px; padding:6px 12px; cursor:pointer; font-size:13px; }
     li.done button { border-color:var(--ok); color:var(--ok); }
+    .banner { background:#fff6d6; border:1px solid #f0d77a; border-radius:8px; padding:10px 14px; margin:0 0 20px; font-size:14px; }
     footer { margin-top:32px; padding-top:14px; border-top:1px solid var(--line);
              color:var(--mut); font-size:13px; display:flex; justify-content:space-between; }
   </style>
@@ -29,6 +30,8 @@
 <div class="wrap">
   <h1>Taskboard</h1>
   <p class="sub">Le tableau de tâches de l'équipe — fil rouge de la formation DevOps</p>
+
+  <p class="banner" th:if="${!#strings.isEmpty(banner)}" th:text="${banner}">Annonce</p>
 
   <form class="add" method="post" action="/tasks">
     <input type="text" name="title" placeholder="Nouvelle tâche…" required>
