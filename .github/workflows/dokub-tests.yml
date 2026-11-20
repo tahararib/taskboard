@@ -1,0 +1,24 @@
+# Tests de la branche dokub (formation Kubernetes, les essentiels).
+# Ce fichier n'existe que sur la branche dokub : main (MG7080) n'est pas concernée.
+name: dokub-tests
+on:
+  push:
+    branches: [dokub]
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - name: Tests unitaires
+        run: mvn -B test
+      - name: Construction des 3 images (vérification du Dockerfile)
+        run: |
+          docker build -q -t taskboard:1.0.0 --build-arg APP_VERSION=1.0.0 .
+          docker build -q -t taskboard:3.0.0 --build-arg APP_VERSION=3.0.0 --build-arg FEATURE_REQUIRED=true .
+          docker image inspect taskboard:3.0.0 --format '{{json .Config.Env}}'
